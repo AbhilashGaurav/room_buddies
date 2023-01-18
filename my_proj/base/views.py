@@ -3,7 +3,7 @@ from django.http import HttpResponse
 
 from .forms import RoomForm
 # Create your views here.
-from .models import Room
+from .models import Room, Topic
 rooms = [
     {'id': 1, 'name': '1 oop data'},
     {'id': 2, 'name': '2 data'},
@@ -11,8 +11,11 @@ rooms = [
     {'id': 4, 'name': '4 data'}
 ]
 def home(request):
-    rooms = Room.objects.all()
-    context = {'rooms': rooms}
+    q = request.GET.get('q') if request.GET.get('q') else ''
+    rooms = Room.objects.filter(topic__name__icontains= q) 
+    topics = Topic.objects.all()
+
+    context = {'rooms': rooms, 'topics': topics}
     return render(request, 'base/home.html',context)
 
 def room(request,pk):
