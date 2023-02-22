@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <a href="/">
     <h1>logo</h1>
 
@@ -14,4 +15,22 @@
 <a href="{%url 'login'%} ">Login</a>
 
 {%endif%}
+=======
+<a href="/">
+    <h1>logo</h1>
+
+</a>
+
+<form method="GET" action="{%url 'home'%}">
+    <input type="text" name="q" placeholder="Search Here.."/> 
+</form>
+{%if request.user.is_authenticated%}
+<p> Hello {{request.user}}</p>
+<a href="{%url 'logout'%}">Logout</a>
+
+{%else%}
+<a href="{%url 'login'%} ">Login</a>
+
+{%endif%}
+>>>>>>> 7473195b0f73cdab975da524bc95679a4926a05b
 <hr>
