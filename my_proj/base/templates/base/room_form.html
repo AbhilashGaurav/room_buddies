@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 {%extends 'main.html'%}
 
 {% block content%}
@@ -9,16 +8,4 @@
         <input type="submit" value="Submit"/> 
         </form>
 </div>
-=======
-{%extends 'main.html'%}
-
-{% block content%}
-<div> 
-    <form method="post" action="">
-        {%csrf_token%} 
-        {{form.as_p}}
-        <input type="submit" value="Submit"/> 
-        </form>
-</div>
->>>>>>> 7473195b0f73cdab975da524bc95679a4926a05b
 {%endblock content%}
