@@ -5,10 +5,12 @@ from django.db.models import Q
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+
 from .forms import RoomForm
 from django.contrib.auth.forms import UserCreationForm
+
 # Create your views here.
-from .models import Room, Topic
+from .models import Room, Topic, Message
 # rooms = [
 #     {'id': 1, 'name': '1 oop data'},
 #     {'id': 2, 'name': '2 data'},
@@ -74,7 +76,15 @@ def room(request,pk):
     # for i in rooms:
     #     if i['id'] ==int(pk):
     #         room =i
-    room_messages = room.message_set.all()
+    room_messages = room.message_set.all().order_by('-created')
+
+    if request.method == 'POST':
+        message = Message.objects.create(
+            user = request.user,
+            room = room,
+            body = request.POST.get('body')
+        )
+        return redirect('room',pk=room.id)
     context = {'room':room,'room_messages':room_messages}
     return render(request, 'base/room.html',context)
 # create a new room 
