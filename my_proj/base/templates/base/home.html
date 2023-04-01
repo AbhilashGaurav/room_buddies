@@ -10,64 +10,23 @@
 </style>
 <div class="home-container">
     <div>
-        <h3>
-             Browse content
-            <hr>
-        </h3>
-
-        <div>
-            <a href="{%url 'home'%}">All
-            </a>
-        </div>
-        {% for topic in topics %}
-            <div>
-                <a href="{%url 'home'%}?q={{topic.name}}">
-                    {{topic.name}}
-                </a>
-            </div>
-        {% endfor%}
+        {% include 'base/topics_component.html' %}
     </div>
     <div>
         <h2>
             <h5>{{room_count}} rooms available</h5>
             <a href="{%url 'create-room' %}" style="text-decoration:none"> Create Room
-                <hr>
             </a>
-        </h2>
-        <div>
-
-            {% for room in rooms%}
-            <div>
-                {%if request.user == room.host%} 
-                <a href="{%url 'update-room' room.id %}" style="text-decoration:none"> Edit</a>
-                <a href="{%url 'delete-room' room.id %}" style="text-decoration:none"> Delete</a>
-                {%endif%}
-                
-                <span> @{{room.host.username}}</span>
-                <h5>
-                    {{room.id}} ----<a href="{%url 'room' room.id%}">{{room.name}} </a>
-                </h5>
-                <small>{{room.topic.name}}</small>
-                <hr> 
-            </div>
-
-            {% endfor %}
-        </div>
-    </div>
-    <div>
-        <h3> Recent activity</h3>
-        <hr>
-        {% for message in room_messages %}
-        <div>
-            <small>@{{message.user}} {{message.created|timesince}}</small>
-            <small>replied to "{{message.room}}"</small>
-            <p>{{message}}</p>
-            {% if request.user == message.user %}
-                <a href="{% url 'delete-message' message.id %}"> Delete</a>
-            {% endif  %}
             <hr>
-        </div>
-        {% endfor %}
+        </h2>
+        {%include 'base\feed_components.html' %}
+    </div>
+    
+    
+    <div>
+        {% include 'base\activity_component.html' %}
+        
+        
     </div>
 </div>
 {%endblock content%}
