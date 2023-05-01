@@ -1,8 +1,9 @@
+{%load static%}
 <header class="header header--loggedIn">
     <div class="container">
       <a href="{% url 'home'%}" class="header__logo">
-        <img src="assets/logo.svg" />
-        <h1>StudyBuddy</h1>
+        <img src="{% static 'images/logo1.svg' %}" />
+        <h1>Room Buddies</h1>
       </a>
       <form class="header__search" method = "GET" action="{%url 'home'%}">
         <label>
@@ -37,7 +38,7 @@
         <!-- Not Logged In -->
 
         <a href="{%url 'login'%}">
-          <img src="./assets/avatar.svg" />
+          <img src="{% static 'images/avatar.svg'%}" />
           <p>Login</p>
         </a>
 
