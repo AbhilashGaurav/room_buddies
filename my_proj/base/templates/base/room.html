@@ -7,7 +7,7 @@
         <div class="room">
           <div class="room__top">
             <div class="room__topLeft">
-              <a href="{url 'home'}">
+              <a href="">
                 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
                   <title>arrow-left</title>
                   <path
@@ -54,9 +54,8 @@
                 </svg>
               </a>
             </div>
-            {% endif %}
-
           </div>
+          {% endif %}
           <div class="room__box scroll">
             <div class="room__header scroll">
               <div class="room__info">
@@ -92,7 +91,7 @@
                       </a>
                       <span class="thread__date">{{message.created|timesince}} ago</span>
                     </div>
-                    {% if request.user == message.user %}
+                    {% if request.user == user.message %}
                     <a href="{%url 'delete-message' message.id %}">
                     <div class="thread__delete">
                       <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
@@ -115,7 +114,10 @@
           </div>
           <!-- {% for message in room_messages%} -->
           <div class="room__message">
-            <form action="#"><input name="" placeholder="Write your message here..." /></form>
+
+            <form action="" method="post">
+              {%csrf_token%}
+              <input name="body" placeholder="Write your message here..." /></form>
           </div>
           <!-- {% endfor %} -->
         </div>
