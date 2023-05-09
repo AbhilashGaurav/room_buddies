@@ -71,9 +71,9 @@
                   <span>@{{ room.host.username }}</span>
                 </a>
               </div>
-              <div class="room__details">
+              <!-- <div class="room__details">
                 <p>{{room.description}}</p>
-              </div>
+              </div> -->
               <span class="room__topics">{{room.topic}}</span>
             </div>
             <div class="room__conversation">
@@ -91,7 +91,7 @@
                       </a>
                       <span class="thread__date">{{message.created|timesince}} ago</span>
                     </div>
-                    {% if request.user == user.message %}
+                    {% if request.user == message.user %}
                     <a href="{%url 'delete-message' message.id %}">
                     <div class="thread__delete">
                       <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
@@ -126,7 +126,7 @@
         <!--   Start -->
         <div class="participants">
           <h3 class="participants__top">Participants <span>({{participants.count}} joined)</span></h3>
-         
+          <div class="participants__list scroll">
           {% for user in participants %}
             <a href="{% url 'user-profile' user.id %}" class="participant">
               <div class="avatar avatar--medium">

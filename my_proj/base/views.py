@@ -65,7 +65,7 @@ def home(request):
         Q(name__icontains=q) |
         Q(description__icontains=q) 
         )
-    topics = Topic.objects.all()
+    topics = Topic.objects.all()[0:5]
     rooms_count = rooms.count()
     # room_messages = Message.objects.all()
     room_messages = Message.objects.filter(Q(room__topic__name__icontains=q))
@@ -81,11 +81,7 @@ def room(request,pk):
     room_messages = room.message_set.all()
     participants = room.participants.all()
     if request.method == 'POST':
-        message = Message.objects.create(
-            user = request.user,
-            room = room,
-            body = request.POST.get('body')
-        )
+        message = Message.objects.create(user = request.user,room = room,body = request.POST.get('body'))
         room.participants.add(request.user)
         return redirect('room',pk=room.id)
     context = {'room':room,'room_messages':room_messages,'participants':participants}
@@ -183,3 +179,22 @@ def updateUser(request):
             return redirect('user-profile',pk=user.id)
 
     return render(request,"base/update_user.html",{'form':form})
+
+def  topicsPage(request):
+    q = request.GET.get('q') if request.GET.get('q') else ''
+
+    topics = Topic.objects.filter(name__icontains=q)
+    return render(request,"base/topics.html",{'topics':topics})
+
+def userProfile(request, pk):
+    user = User.objects.get(id=pk)
+    rooms = user.room_set.all()
+    room_messages = user.message_set.all()
+    topics = Topic.objects.all()
+    context = {'user': user, 'rooms': rooms,
+               'room_messages': room_messages, 'topics': topics}
+    return render(request, 'base/profile.html', context)
+
+def activityPage(request):
+    room_messages = Message.objects.all()
+    return render(request,"base/activity.html",{'room_messages': room_messages})
