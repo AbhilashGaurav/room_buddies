@@ -66,7 +66,7 @@
                 <p>HOSTED BY</p>
                 <a href="{% url 'user-profile' room.host.id %}" class="room__author">
                   <div class="avatar avatar--small">
-                    <img src="https://randomuser.me/api/portraits/men/37.jpg" />
+                    <img src="{{room.host.avatar.url}}" />
                   </div>
                   <span>@{{ room.host.username }}</span>
                 </a>
@@ -85,13 +85,13 @@
                     <div class="thread__author">
                       <a href="{%url 'user-profile' message.user.id %}" class="thread__authorInfo">
                         <div class="avatar avatar--small">
-                          <img src="https://randomuser.me/api/portraits/men/37.jpg" />
+                          <img src="{{message.user.avatar.url}}" />
                         </div>
                         <span>@{{message.user.username}}</span>
                       </a>
                       <span class="thread__date">{{message.created|timesince}} ago</span>
                     </div>
-                    {% if request.user == message.user %}
+                    <!-- {% if request.user == message.user %} -->
                     <a href="{%url 'delete-message' message.id %}">
                     <div class="thread__delete">
                       <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
@@ -102,7 +102,7 @@
                       </svg>
                     </div>
                   </a>
-                    {%endif%}
+                    <!-- {%endif%} -->
                   </div>
                   <div class="thread__details">
                     {{message.body}}
@@ -113,14 +113,18 @@
             </div>
           </div>
           <!-- {% for message in room_messages%} -->
+          
+          <!-- {% endfor %} -->
+          {% if request.user.is_authenticated %}
           <div class="room__message">
-
             <form action="" method="post">
               {%csrf_token%}
               <input name="body" placeholder="Write your message here..." /></form>
           </div>
-          <!-- {% endfor %} -->
+          {%endif%}
+
         </div>
+
         <!-- Room End -->
 
         <!--   Start -->
@@ -130,7 +134,8 @@
           {% for user in participants %}
             <a href="{% url 'user-profile' user.id %}" class="participant">
               <div class="avatar avatar--medium">
-                <img src="https://randomuser.me/api/portraits/men/37.jpg" />
+                <img src="{{user.avatar.url}}" />
+                <!-- need to be changed -->
               </div>
               <p>
                 {{ user.username }}
